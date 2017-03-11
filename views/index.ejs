@@ -6,51 +6,69 @@
     <title>PhotoShare</title>
     <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src='/javascripts/angular.js'></script>
+    <%# <script src='/javascripts/angular-sanitize.js'></script>%>
   </head>
-  <body>
+  <body ng-app="myApp" ng-controller="myCtrl">
       <%# 顶部菜单栏%>
-      <header class="navbar navbar-fixed-top">
-          <div class="container">
-              <div class="navbar-header">
-                  <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#menu">
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                  </button>
-                  <a href="#" class="navbar-brand">PhotoShare</a>
-              </div>
-              <nav id="menu" class="navbar-collapse collapse">
-                  <ul class="nav navbar-nav navbar-right">
-                      <% if(uid){ %>
-                          <li><a href="#">登录</a></li>
-                          <li><a href="#">注册</a></li>
-                      <% } else { %>
-                          <li>你好，<%=userName%></li>
-                          <li><a href="#">我的相册</a></li>
-                          <li><a href="#">我的朋友</a></li>
-                          <li><a href="#">设置</a></li>
-                          <li><a href="#">退出</a></li>
-                      <% } %>
-                  </ul>
-              </nav>
-          </div>
-      </header>
+     <% include  ./components/navmenu.ejs %>
 
       <%# 网站介绍%>
       <div class="jumbotron">
           <div class="container">
-              <h2>
+             <h2>
                   <img class="logo" src="/images/photo.png" alt="Logo">
                   和朋友分享你的照片
-              </h2>
-              <form class="form-inline" action="#" method="post">
-                  <input type="text" class="form-control" name="keywords" value="" placeholder="可以搜索照片标题、发布人">
-                  <button type="submit" class="btn btn-default">搜索照片</button>
-              </form>
+             </h2>
+             <p>你可以在这里上传你拍摄的照片,同时和朋友分享你的或你们的快乐时光</p>
+             <div class="search-box">
+                 <input type="text" class="form-control" name="keywords" value="" placeholder="可以搜索照片标题、发布人">
+                 <button class="btn btn-default" type="button">搜索！</button>
+             </div>
           </div>
+        </div>
+        <%# 模态对话框%>
+        <!-- Trigger the modal with a button -->
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{ title }}</h4>
       </div>
+      <div class="modal-body" ng-bind-html="modalBody">
 
+      </div>
+    </div>
+  </div>
+</div>
+
+       <script>
+            'use strict'
+            var app = angular.module('myApp',  []);
+            app.controller('myCtrl', function($scope, $http, $sce) {
+
+                // 注册新用户时调用
+                $scope.regist = function(){
+                    $scope.title = "注册新用户";
+                    $http.get('/registForm').then(function(response) {
+                        $scope.modalBody = $sce.trustAsHtml(response.data);
+                    });
+                };
+                // 登录时调用
+                $scope.login = function() {
+                    $scope.title = "登录";
+                    $http.get('/loginForm').then(function(response) {
+                        $scope.modalBody = $sce.trustAsHtml(response.data);
+                    });
+                }
+            });
+       </script>
       <!--引入需要的bootstrap文件-->
-
+      <script src="/javascripts/jquery.js"></script>
+      <script src="/javascripts/bootstrap.js"></script>
   </body>
 </html>

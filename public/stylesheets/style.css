@@ -1,14 +1,49 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
 /*网站标题*/
+.jumbotron{
+    text-align: center;
+}
 .logo {
     height: 120px;
-    vertical-align: bottom;
+    vertical-align: bottom;;
+}
+
+.jumbotron input[type="text"] {
+    display: inline-block;
+    width: 40%;
+    margin: auto;
+}
+
+/*用户页面*/
+.page-header{
+    padding: 10px 0 0 5px;
+}
+
+#head-profile{
+    margin: 5px 20px 0 20px;
+    height: 60px;
+    vertical-align: bottom;;
+}
+
+#greet{
+    font-size: 36px;
+}
+
+.thumbnail .caption{
+    color: rgba(128, 128, 128, 0.8);
+}
+
+.photo-frame {
+    height: 256px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.photo-frame img {
+    margin: 0 auto;
+    height: 100%;
+}
+
+#path {
+    display: inline-block;
+    margin-right: 20px;
 }
