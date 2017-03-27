@@ -1,17 +1,17 @@
 <%# 注册窗口%>
-<form role="form">
+<form role="form" ng-submit="regist">
     <div class="form-group">
         <label for="email">电子邮件地址</label>
-        <input class="form-control" id="email" type="email" name="email" placeholder="电子邮件地址">
+        <input class="form-control" ng-model="newEmail" type="email" name="email" placeholder="电子邮件地址" required>
     </div>
     <div class="form-group">
         <label for="pwd">密码</label>
-        <input class="form-control" id="pwd" type="password" name="pwd" placeholder="密码">
+        <input class="form-control" ng-model="newPassword" type="password" name="pwd" placeholder="密码" required>
     </div>
     <div class="form-group">
         <label for="pwd2">确认密码</label>
-        <input class="form-control" id="pwd2" type="password" name="pwd" placeholder="确认密码">
+        <input class="form-control" ng-model="newPassword2" type="password"  placeholder="确认密码" required>
     </div>
-    <button class="btn btn-default" type="submit" name="button">确定注册</button>
+    <button class="btn btn-default" type="submit">确定注册</button>
 </form>
 </div>
