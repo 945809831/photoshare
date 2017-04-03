@@ -9,11 +9,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/registForm', function(req, res, next) {
-    res.render('components/registForm');
+    res.render('registForm');
 });
 
 router.get('/loginForm', function(req, res, next) {
-    res.render('components/loginForm');
+    res.render('loginForm');
 });
 
 router.post('/login', function(req, res, next) {

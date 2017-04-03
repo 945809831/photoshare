@@ -1,0 +1,24 @@
+body{
+  background-color: #f9f9f9;
+}
+
+.container{
+  margin: 8% auto;
+  width: 320px;
+}
+
+.logo {
+  /*width: 48px;*/
+  text-align: center;
+}
+.logo img{
+    height: 48px;
+}
+
+form {
+  margin-top: 30px;
+  padding: 15px;
+  border: 1px solid #d8dee2;
+  border-radius: 5px;
+  background-color: #fff;
+}
