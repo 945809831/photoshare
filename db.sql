@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS user(
     nickname VARCHAR(50),        -- 昵称
     avatar INT UNSIGNED,         -- 头像
     salt VARCHAR(100),           -- 用于加密的salt
-    password VARCHAR(400),        -- 密码
-    CONSTRAINT fk_user_album_id FOREIGN KEY (album_id) REFERENCES album (id)
+    password VARCHAR(400)        -- 密码
 );
 
 -- 相册表
