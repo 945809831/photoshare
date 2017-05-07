@@ -1,82 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PhotoShare</title>
-    <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src='/javascripts/angular.js'></script>
-    <%# <script src='/javascripts/angular-sanitize.js'></script>%>
-  </head>
-  <body ng-app="myApp" ng-controller="myCtrl">
-      <%# 顶部菜单栏%>
-     <% include  ./components/navmenu.ejs %>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhotoShare</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script src='/javascripts/angular.js'></script>
+  <%# <script src='/javascripts/angular-sanitize.js'></script>%>
+</head>
+
+<body>
+  <%# 顶部菜单栏%>
+    <% include  ./parts/navmenu.ejs %>
 
       <%# 网站介绍%>
-      <div class="jumbotron">
+        <div class="jumbotron">
           <div class="container">
-             <h1>
+            <h1>
                   <img class="logo" src="/images/photo.png" alt="Logo">
                   PhotoShare
              </h1>
-             <p>你可以在这里上传你拍摄的照片,同时和朋友分享你的或你们的快乐时光</p>
-             <div class="search-box">
-                 <input type="text" class="form-control" name="keywords" value="" placeholder="可以搜索照片标题、发布人">
-                 <button class="btn btn-default" type="button">GO!</button>
-             </div>
+            <p>你可以在这里上传你拍摄的照片,同时和朋友分享你的或你们的快乐时光</p>
+            <div class="search-box">
+              <input type="text" class="form-control" name="keywords" value="" placeholder="可以搜索照片标题、发布人">
+              <button class="btn btn-default" type="button">GO!</button>
+            </div>
           </div>
         </div>
-        <%# 模态对话框%>
-        <!-- Trigger the modal with a button -->
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+        <!--引入需要的bootstrap文件-->
+        <script src="/javascripts/jquery.js"></script>
+        <script src="/javascripts/bootstrap.js"></script>
+</body>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">{{ title }}</h4>
-      </div>
-      <div class="modal-body" ng-bind-html="modalBody">
-
-      </div>
-    </div>
-  </div>
-</div>
-
-       <script>
-            'use strict'
-            var app = angular.module('myApp',  []);
-            app.controller('myCtrl', function($scope, $http, $sce) {
-
-                // 打开注册新用户窗口
-                $scope.registForm = function(){
-                    $scope.title = "注册新用户";
-                    $http.get('/registForm').then(function(response) {
-                        $scope.modalBody = $sce.trustAsHtml(response.data);
-                    });
-                };
-                // 打开登录窗口
-                $scope.loginForm = function() {
-                    $scope.title = "登录";
-                    $http.get('/loginForm').then(function(response) {
-                        $scope.modalBody = $sce.trustAsHtml(response.data);
-                    });
-                };
-                // 注册新用户
-                $scope.regist = function(){
-
-                };
-
-                $scope.login = function(){
-
-                };
-            });
-       </script>
-      <!--引入需要的bootstrap文件-->
-      <script src="/javascripts/jquery.js"></script>
-      <script src="/javascripts/bootstrap.js"></script>
-  </body>
 </html>

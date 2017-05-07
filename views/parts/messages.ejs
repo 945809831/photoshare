@@ -1,0 +1,6 @@
+<% if(locales.messages) { %>
+  <% messages.forEach(function(message){ %>
+    <p > <%= message.string %></p>
+  <% }) %>
+  <% removeMessages() %>
+<% } %>

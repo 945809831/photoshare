@@ -17,4 +17,5 @@ module.exports = function(req, res, next) {
     res.locals.removeMessages = function(){
         req.session.messages = [];
     }
+    next();
 };

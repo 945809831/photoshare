@@ -1,14 +1,15 @@
 -- Photos database
--- CREATE DATABASE IF NOT EXISTS photos;
+CREATE DATABASE IF NOT EXISTS photos;
+
+USE photos;
 -- PhotoShare database tables
 CREATE TABLE IF NOT EXISTS user(
-    id INT UNSIGNED KEY AUTO_INCREMENT,         -- 主键
+    id INT UNSIGNED KEY AUTO_INCREMENT,
     email VARCHAR(200) NOT NULL, -- 邮箱地址
     nickname VARCHAR(50),        -- 昵称
-    avatar INT UNSIGNED,         -- 头像
+    avatar_url INT UNSIGNED,         -- 头像
     salt VARCHAR(100),           -- 用于加密的salt
-    password VARCHAR(400),        -- 密码
-    CONSTRAINT fk_user_album_id FOREIGN KEY (album_id) REFERENCES album (id)
+    hash_password VARCHAR(100)        -- 密码
 );
 
 -- 相册表
@@ -23,16 +24,16 @@ CREATE TABLE IF NOT EXISTS album(
 
 -- 照片表
 CREATE TABLE IF NOT EXISTS photo(
-    id INT UNSIGNED KEY AUTO_INCREMENT,     -- 主键
+    id INT UNSIGNED KEY AUTO_INCREMENT,
     url VARCHAR(200),        -- 照片存贮路径
     title VARCHAR(100),      -- 照片的标题
     upload_time DATETIME,    -- 上传时间
     taken_time DATETIME,     -- 拍摄时间
-    owner INT UNSIGNED,      -- 所有者
+    -- owner INT UNSIGNED,      -- 所有者
     visibility CHAR(1),      -- 可见性：F(friend朋友可见)，M(me)仅自己可见, P(public)所有人
     album_id INT UNSIGNED,
-    CONSTRAINT fk_photo_album_id FOREIGN KEY (album_id) REFERENCES album (id),
-    CONSTRAINT fk_photo_user_id FOREIGN KEY (owner) REFERENCES user (id)
+    CONSTRAINT fk_photo_album_id FOREIGN KEY (album_id) REFERENCES album (id)
+    -- CONSTRAINT fk_photo_user_id FOREIGN KEY (owner) REFERENCES user (id)
 );
 
 -- 评论表，存贮对照片评价及说明

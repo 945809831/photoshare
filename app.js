@@ -8,6 +8,7 @@ var session = require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var messages = require('./models/messages');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(messages);
 app.use('/', index);
 app.use('/users', users);
 
