@@ -2,56 +2,66 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('../models/user.js');
+var messages = require('../models/messages');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { user: null });
+router.get('/', function(req, res) {
+    res.render('index', { user: null });
 });
 
-router.get('/registerForm', function(req, res, next) {
+/* 显示注册表单 */
+router.get('/registerForm', function(req, res) {
     res.render('auth/registerForm');
 });
 
-router.get('/loginForm', function(req, res, next) {
+/*显示用户登录表单*/
+router.get('/loginForm', function(req, res) {
     res.render('auth/loginForm');
 });
 
-router.post('/login', function(req, res, next) {
+/* 用户登录过程 */
+router.post('/login', function(req, res) {
     var email = req.body.email;
-    var password = req.body.pwd;
+    var pwd = req.body.pwd;
 
-    User.authenticate(email, password, function(err, user){
-        if(err) return next(err);
-        if(user) {
-            req.session.user = user;
-            res.redirect('/users');
+    User.authenticate(email, pwd, function(err, user) {
+        if (err) {
+            return err;
+        }
+        if (user) {
+            req.session.id = user.id;
+            res.render('user.ejs', { user: true });
         } else {
-            res.error('用户名或密码错误');
+            res.error('用户名或密码错误，请重新输入！');
             res.redirect('back');
         }
     });
 });
 
-router.post('/regist', function(req, res, next) {
+/* 注册过程 */
+router.post('/register', function(req, res, next) {
     var email = req.body.email;
-    var passwd = req.body.passwd;
-
-    User.findByEmail(email, function(err, user) {
-        if(user){
-          console.log("INFO: email has registed", user);
-          res.error('该邮箱地址已经注册了！');
-          res.render('registForm');
-        } else {
-            var newUser = new User({email: email});
-            newUser.hashPassword(passwd);
-            newUser.save(function(err){
-              if (err) return next(err);
-              console.log('INFO: user login');
-              res.redirect('/login');
-            });
-        }
-    });
-
+    var password = req.body.pwd;
+    var confirmedPassword = req.body.pwd2;
+    if (password !== confirmedPassword) {
+        debugger;
+        res.error('密码和确认密码不一致，请重新输入！');
+        res.redirect('back');
+    } else {
+        User.findByEmail(email, function(err, user) {
+            if (user) {
+                res.error('该邮箱地址已经被注册了！');
+                debugger;
+                res.redirect('back');
+            } else {
+                var newUser = new User(email, password);
+                newUser.save(function(err) {
+                    if (err) return next(err);
+                    return res.redirect('/loginForm');
+                });
+            }
+        });
+    }
 });
 
 module.exports = router;
