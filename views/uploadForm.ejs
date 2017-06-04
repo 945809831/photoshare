@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhotoShare</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+     <!-- 全局导航菜单 -->
+     <% include  navmenu %>
+     <!-- 用户信息-->
+     <div class="page-header">
+        <h1>
+            <img  id="head-profile" src="/images/user.jpg">
+            <span id="greet">你好，</span> <small> <%=locals.user.email%></small>
+        </h1>
+     </div>
+     <!--内容区域-->
+     <div  class="container">
+        <form>
+             <div class="form-group">
+                <label for="photo-file">选择图片文件</label>
+                <input type="file" id="photo-file" onchange="preview(this)">
+                 <div id="images-preview"></p>
+            </div>
+            <div class="form-group">
+                <label for="photo-title">图片标题</label>
+                <input type="input" class="form-control" id="photo-title" placeholder="图片标题">
+            </div>
+            <div class="form-group">
+                <label for="photo-comment">图片说明</label>
+                <textarea class="form-control" id="photo-comment" placeholder="图片说明" rows="6">
+                </textarea>
+            </div>
+           
+            <button type="submit" class="btn btn-default">提交</button>
+        </form>
+     </div>
+
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+  function preview(file) {
+    var prevDiv = document.getElementById('images-preview');
+    if (file.files && file.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        prevDiv.innerHTML = '<img width="100" src="' + evt.target.result + '" />';
+      }
+      reader.readAsDataURL(file.files[0]);
+    } else {
+      prevDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+    }
+  }
+  </script>
+  </body>
+</html>

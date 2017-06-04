@@ -6,7 +6,7 @@ var messages = require('../models/messages');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index', { user: null });
+    res.render('index');
 });
 
 /* 显示注册表单 */
@@ -29,8 +29,9 @@ router.post('/login', function(req, res) {
             return err;
         }
         if (user) {
-            req.session.id = user.id;
-            res.render('user.ejs', { user: true });
+            req.session.user = user;
+            res.locals.user = user;
+            res.render('user.ejs');
         } else {
             res.error('用户名或密码错误，请重新输入！');
             res.redirect('back');
