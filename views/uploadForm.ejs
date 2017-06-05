@@ -20,19 +20,19 @@
      </div>
      <!--内容区域-->
      <div  class="container">
-        <form>
+        <form method="post" action="/users/upload" enctype="multipart/form-data">
              <div class="form-group">
                 <label for="photo-file">选择图片文件</label>
-                <input type="file" id="photo-file" onchange="preview(this)">
-                 <div id="images-preview"></p>
+                <input type="file" id="photo-file" class="btn btn-primary" name="photo" onchange="preview(this)">
+                <div id="images-preview"></div>
             </div>
             <div class="form-group">
                 <label for="photo-title">图片标题</label>
-                <input type="input" class="form-control" id="photo-title" placeholder="图片标题">
+                <input type="input" class="form-control" id="photo-title" name="title" placeholder="图片标题">
             </div>
             <div class="form-group">
                 <label for="photo-comment">图片说明</label>
-                <textarea class="form-control" id="photo-comment" placeholder="图片说明" rows="6">
+                <textarea class="form-control" id="photo-comment" name="comment" placeholder="图片说明" rows="6">
                 </textarea>
             </div>
            
@@ -49,7 +49,7 @@
     if (file.files && file.files[0]) {
       var reader = new FileReader();
       reader.onload = function(evt) {
-        prevDiv.innerHTML = '<img width="100" src="' + evt.target.result + '" />';
+        prevDiv.innerHTML = '<img width="100" height="100" src="' + evt.target.result + '" />';
       }
       reader.readAsDataURL(file.files[0]);
     } else {
