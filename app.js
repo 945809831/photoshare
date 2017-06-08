@@ -16,6 +16,9 @@ var app = express();
 app.set('./views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// 设定图片在服务器中的存储路径
+app.set('photolib', path.join(__dirname, 'photolib'));
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -28,6 +31,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge: 6000000 }
 }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(messages); // 自定义的用于传递请求层的信息的中间件

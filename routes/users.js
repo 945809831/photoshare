@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var formidable = require('formidable');
 var path = require('path');
-var move = require('../models/move');
+var fs = require('fs');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -23,11 +23,20 @@ router.get('/uploadForm', function(req, res, next) {
 router.post('/upload', function(req, res, next) {
     var form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
-        console.log(fields.title, fields.comment);
-        console.log(files.photo);
-        // var origPath = path.join(files.photo.path, files.photo.name);
-        // var destPath = path.join('')
-        res.end('upload complete!');
+        var uploadFileName = path.basename(files.photo.path);
+        var ext = files.photo.type;
+        var src = files.photo.path;
+
+        var dest = path.format({
+            root: req.app.get('photolib') + '/',
+            name: uploadFileName,
+            ext: ext.replace('image/', '.')
+        });
+        //var dest = path.join(req.app.get('photolib'), uploadFileName + '.' + ext.substring(ext.indexOf('/') + 1));
+        fs.rename(src, dest, function(err) {
+            res.end('finished!');
+        });
+
     });
 });
 
