@@ -61,15 +61,20 @@ User.findByEmail = function(email, fn) {
 User.authenticate = function(email, passwd, fn) {
     User.findByEmail(email, function(err, user) {
         if (err) return fn(err);
-        var salt = user.salt;
-        var cryptoPasswd = crypto.createHash('sha1')
-            .update(salt + passwd)
-            .digest('hex');
-        if (cryptoPasswd === user.hash_password) {
-            fn(null, user);
+        if (user !== null) {
+            var salt = user.salt;
+            var cryptoPasswd = crypto.createHash('sha1')
+                .update(salt + passwd)
+                .digest('hex');
+            if (cryptoPasswd === user.hash_password) {
+                fn(null, user);
+            } else {
+                fn();
+            }
         } else {
             fn();
         }
+
     });
 };
 

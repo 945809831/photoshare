@@ -28,12 +28,11 @@ CREATE TABLE IF NOT EXISTS photo(
     url VARCHAR(200),        -- 照片存贮路径
     title VARCHAR(100),      -- 照片的标题
     upload_time DATETIME,    -- 上传时间
-    taken_time DATETIME,     -- 拍摄时间
-    -- owner INT UNSIGNED,      -- 所有者
+    owner INT UNSIGNED,      -- 所有者
     visibility CHAR(1),      -- 可见性：F(friend朋友可见)，M(me)仅自己可见, P(public)所有人
     album_id INT UNSIGNED,
-    CONSTRAINT fk_photo_album_id FOREIGN KEY (album_id) REFERENCES album (id)
-    -- CONSTRAINT fk_photo_user_id FOREIGN KEY (owner) REFERENCES user (id)
+    CONSTRAINT fk_photo_album_id FOREIGN KEY (album_id) REFERENCES album (id),
+    CONSTRAINT fk_photo_user_id FOREIGN KEY (owner) REFERENCES user (id)
 );
 
 -- 评论表，存贮对照片评价及说明

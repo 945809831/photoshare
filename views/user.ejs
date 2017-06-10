@@ -23,17 +23,23 @@
 
      <!--图像显示区-->
      <div class="row">
-         <div class="col-xs-12 col-md-4">
+        <% locals.photos.forEach( function(photo){ %>
+            <div class="col-xs-12 col-md-3">
              <div class="thumbnail">
                  <div class="photo-frame">
-                     <img src="/images/album.jpeg" alt="Superman">
+                     <img src="<%= photo.url %>" alt="Superman">
                 </div>
                  <div class="caption">
-                     <h4>Thumbnail title</h4>
-                     <p><span>user</span>上传于<span>2017-3-4</span></p>
+                     <h6><%= photo.title %></h6>
+                     <p>
+                        <span><%- locals.user.email %></span>发布于
+                        <span><%= photo.upload_time %></span>
+                     </p>
                  </div>
              </div>
          </div>
+        <% } ) %>
+         
      </div>
      </div>
       <script src="/javascripts/jquery.js"></script>

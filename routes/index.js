@@ -30,8 +30,7 @@ router.post('/login', function(req, res) {
         }
         if (user) {
             req.session.user = user;
-            res.locals.user = user;
-            res.render('user.ejs');
+            res.redirect('/users');
         } else {
             res.error('用户名或密码错误，请重新输入！');
             res.redirect('back');

@@ -9,6 +9,7 @@ var session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var messages = require('./models/messages');
+var photos = require('./routes/photos');
 
 var app = express();
 
@@ -31,10 +32,11 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge: 6000000 }
 }));
-
+// .css .js及.html等网站静态文件的访问
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(messages); // 自定义的用于传递请求层的信息的中间件
+app.use(photos(path.join(__dirname, 'photolib')));
 app.use('/', index);
 app.use('/users', users);
 
