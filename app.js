@@ -8,8 +8,9 @@ var session = require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var messages = require('./models/messages');
 var photos = require('./routes/photos');
+
+var messages = require('./models/messages');
 
 var app = express();
 
@@ -36,9 +37,9 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(messages); // 自定义的用于传递请求层的信息的中间件
-app.use(photos(path.join(__dirname, 'photolib')));
 app.use('/', index);
 app.use('/users', users);
+app.use('/photo', photos);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

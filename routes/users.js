@@ -40,14 +40,15 @@ router.post('/upload', function(req, res, next) {
             // 使用path.format函数构造文件在服务器的存贮路径
             var dest = path.format({
                 root: req.app.get('photolib') + '/',
-                name: uploadFileName,
+                name: uploadFileName.substring(7),
                 ext: ext.replace('image/', '.')
             });
             // 将上传图片文件移动到服务器存储图片的目录中
             fs.rename(src, dest, function(err) {
                 var ownerId = req.session.user.id;
                 //可见性默认设置为P(Public)， 对所有人可见
-                var photo = new Photo(dest, title, ownerId, 'P');
+                var url = path.basename(dest);
+                var photo = new Photo(url, title, ownerId, 'P');
                 photo.save(function(err) {
                     res.redirect('/users'); //如果成功存储，将页面重定向到用户首页
                 });
