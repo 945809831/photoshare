@@ -7,23 +7,46 @@ var router = express.Router();
 var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
-
-var Photo = require('../models/photo.js');
+var User = require('../models/user')
+var Photo = require('../models/photo');
 
 /* 显示用户上传的所有图片文件. */
 router.get('/', function(req, res, next) {
-    Photo.getAll(function(err, photos) {
-        res.locals.user = req.session.user;
+    var uid = req.session.user.id;
+    Photo.getAll(uid, function(err, photos) {
+        //res.locals.user = req.session.user;
         res.locals.photos = photos;
-        res.render('user');
+        res.render('user/photosList');
     });
 });
 
 // 打开用户上传图片页面
 router.get('/uploadForm', function(req, res, next) {
-    res.locals.user = req.session.user;
-    res.render('uploadForm');
+    //res.locals.user = req.session.user;
+    res.render('user/uploadForm');
 });
+
+/**
+ * 处理用户上传的图片文件, 将文件移动到文件存储路径，
+ * 同时将图片路径信息写入数据库中
+ *  @param {object} file 从formidable中解析出上传文件对象
+ */
+function moveUploadFile(file, destDir, callback) {
+    var fileName = path.basename(file.path); // 文件名
+    var type = file.type; //文件类型(image/jpeg)
+    var srcPath = file.path; // 上传文件在服务器中临时路径
+    var destPath = path.format({ // 准备实际图片路径
+        root: destDir + '/',
+        name: fileName.substring(7),
+        ext: type.replace('image/', '.')
+    });
+    fs.rename(srcPath, destPath, function(err) {
+        if (err) return callback(err);
+        // url 为写入数据库中的图片文件实际访问地址, url存储为 '/photo/xxxxx.jpeg'格式
+        var url = '/photo/' + path.basename(destPath);
+        callback(null, url);
+    });
+}
 
 // 上传图片路由
 router.post('/upload', function(req, res, next) {
@@ -31,31 +54,22 @@ router.post('/upload', function(req, res, next) {
     form.parse(req, function(err, fields, files) {
         var title = fields.title; // 上传图片的标题
         var comment = fields.comment; // 上传图片的评论内容
-        // 获取上传文件的文件名
-        var uploadFileName = path.basename(files.photo.path);
-        var ext = files.photo.type; // 上传文件的类型 (image/jpeg形式)
-        var src = files.photo.path; // 长传的文件在服务器的临时存放路径
+        var photo = files.photo; // 上传的图片文件对象
+        var destDir = req.app.get('photolib'); // 获得服务器中图片的存储路径
 
-        if (ext.startsWith('image/')) {
-            // 使用path.format函数构造文件在服务器的存贮路径
-            var dest = path.format({
-                root: req.app.get('photolib') + '/',
-                name: uploadFileName.substring(7),
-                ext: ext.replace('image/', '.')
-            });
-            // 将上传图片文件移动到服务器存储图片的目录中
-            fs.rename(src, dest, function(err) {
+        if (photo.type.startsWith('image/')) {
+            moveUploadFile(photo, destDir, function(err, url) {
                 var ownerId = req.session.user.id;
-                //可见性默认设置为P(Public)， 对所有人可见
-                var url = path.basename(dest);
+                //可见性默认设置为P(Public)对所有人可见, 创建photo对象，调用save方法存入数据库
                 var photo = new Photo(url, title, ownerId, 'P');
-                photo.save(function(err) {
-                    res.redirect('/users'); //如果成功存储，将页面重定向到用户首页
+                photo.save(function(err, url) {
+                    if (err) return err;
+                    res.redirect('/users');
                 });
             });
         } else {
-            res.locals.user = req.session.user;
-            res.locals.info = "所选的文件并非图片文件，请重新选择";
+            //res.locals.user = req.session.user;
+            res.error("所选的文件并非图片文件，请重新选择");
             res.render('uploadForm');
         }
     });
@@ -65,8 +79,36 @@ router.post('/upload', function(req, res, next) {
  *  用户设置页面表单
  */
 router.get('/settingsForm', function(req, res, next) {
-    res.locals.user = req.session.user;
-    res.render('settingsForm');
+    //res.locals.user = req.session.user;
+    res.render('user/settingsForm');
+});
+
+/**
+ *  处理用户更改昵称、头像的设置
+ */
+
+router.post('/settings', function(req, res, next) {
+    var user = req.session.user; // 当前用户
+    var form = formidable.IncomingForm();
+    form.parse(req, function(err, fields, files) {
+        var nickname = fields.nickname; // 获取传入的昵称
+        var avatar = files.avatar; // 用户头像文件名     
+        var destDir = req.app.get('photolib');
+
+        if (avatar.type.startsWith('image/')) {
+            moveUploadFile(avatar, destDir, function(err, url) {
+                var currentUser = new User(req.session.user);
+                currentUser.changeNicknameAvatar(nickname, url, function() {
+                    if (err) return err;
+                    res.redirect('/users/settingsForm');
+                });
+            });
+        } else {
+            //res.locals.user = req.session.user;
+            res.locals.info = "所选的文件并非图片文件，请重新选择";
+            res.render('user/settingsForm');
+        }
+    });
 });
 
 module.exports = router;

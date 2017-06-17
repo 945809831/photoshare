@@ -12,7 +12,7 @@ module.exports = function(req, res, next) {
     };
 
     res.error = function(msg) {
-        return this.message(msg, 'error');
+        return this.message(msg, 'warning');
     };
 
     res.locals.removeMessages = function() {

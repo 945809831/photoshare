@@ -10,7 +10,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var photos = require('./routes/photos');
 
-var messages = require('./models/messages');
+var messages = require('./middleware/messages'); // 上下文消息中间件
+var authenticate = require('./middleware/authenticate'); // 用户登录验证中间件
 
 var app = express();
 
@@ -37,9 +38,10 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(messages); // 自定义的用于传递请求层的信息的中间件
-app.use('/', index);
-app.use('/users', users);
 app.use('/photo', photos);
+app.use('/', index);
+app.use(authenticate); // 验证登录,必须放在不用登录可访问的路由之前，否则不需要登录的路由也不能访问
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

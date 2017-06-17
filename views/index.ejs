@@ -10,26 +10,29 @@
 </head>
 
 <body>
-  <%# 顶部菜单栏%>
-    <% include  navmenu %>
+  <!-- 顶部菜单栏 -->
+  <%- include('widgets/navmenu') %>
 
-      <%# 网站介绍%>
-        <div class="jumbotron">
-          <div class="container">
-            <h1>
-                  <img class="logo" src="/images/photo.png" alt="Logo">
-                  PhotoShare
-             </h1>
-            <p>你可以在这里上传你拍摄的照片,同时和朋友分享你的或你们的快乐时光</p>
-            <div class="search-box">
-              <input type="text" class="form-control" name="keywords" value="" placeholder="可以搜索照片标题、发布人">
-              <button class="btn btn-default" type="button">GO!</button>
-            </div>
-          </div>
-        </div>
-        <!--引入需要的bootstrap文件-->
-        <script src="/javascripts/jquery.js"></script>
-        <script src="/javascripts/bootstrap.js"></script>
+  <!-- 网站介绍 -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>
+        <img class="logo" src="/images/photo.png" alt="Logo">
+            PhotoShare
+      </h1>
+      <p>你可以在这里上传你拍摄的照片,同时和朋友分享你的或你们的快乐时光</p>
+      <div class="search-box">
+        <input type="text" class="form-control" name="keywords" value="" placeholder="可以搜索照片标题、发布人">
+          <button class="btn btn-default" type="button">GO!</button>
+      </div>
+    </div>
+  </div>
+
+  <%- include('widgets/photos')%>
+
+  <!--引入需要的bootstrap文件-->
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/bootstrap.js"></script>
 </body>
 
 </html>

@@ -15,8 +15,8 @@
         </a>
       </div>
       <h3 class="text-center text-success">登录PhotoShare</h3>
-      <%# 用于显示出错信息%>
-      <% include messages %>
+      <!-- 用于显示出错信息 -->
+      <%- include('../widgets/messages') %>
 
       <form id="login-form" method="post" action="/login">
           <div class="form-group">

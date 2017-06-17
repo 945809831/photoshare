@@ -1,22 +1,26 @@
 var express = require('express');
 var router = express.Router();
 
-var User = require('../models/user.js');
-var messages = require('../models/messages');
+var User = require('../models/user');
+var Photo = require('../models/photo');
+var messages = require('../middleware/messages');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index');
+    Photo.getRecent(function(err, photos) {
+        if (err) return err;
+        res.render('index', { photos: photos });
+    });
 });
 
 /* 显示注册表单 */
 router.get('/registerForm', function(req, res) {
-    res.render('auth/registerForm');
+    res.render('user/registerForm');
 });
 
 /*显示用户登录表单*/
 router.get('/loginForm', function(req, res) {
-    res.render('auth/loginForm');
+    res.render('user/loginForm');
 });
 
 /* 用户登录过程 */
@@ -54,7 +58,7 @@ router.post('/register', function(req, res, next) {
                 debugger;
                 res.redirect('back');
             } else {
-                var newUser = new User(email, password);
+                var newUser = new User({ email: email, password: password });
                 newUser.save(function(err) {
                     if (err) return next(err);
                     return res.redirect('/loginForm');
@@ -62,6 +66,12 @@ router.post('/register', function(req, res, next) {
             }
         });
     }
+});
+
+router.get('/logout', function(req, res, next) {
+    req.session.destroy(function(err) {
+        res.redirect('/');
+    });
 });
 
 module.exports = router;

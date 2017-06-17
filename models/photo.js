@@ -24,10 +24,25 @@ Photo.prototype.save = function(fn) {
     });
 };
 
-// 提取全部图片信息
-Photo.getAll = function(fn) {
-    var sql = 'SELECT * FROM photo ORDER BY upload_time';
+/**
+ *  提取最近上传的8张图片
+ */
+Photo.getRecent = function(fn) {
+    var sql = 'SELECT * FROM photo WHERE visibility="P" ORDER BY upload_time DESC';
     conn.query(sql, function(err, results, fields) {
+        if (err) return fn(err);
+        fn(err, results);
+    });
+}
+
+/** 
+ * 提取某个用户的全部图片信息
+ * @param {number} uid  用户的id
+ */
+Photo.getAll = function(uid, fn) {
+    var sql = 'SELECT * FROM photo WHERE owner=? ORDER BY upload_time DESC';
+    var params = [uid];
+    conn.query(sql, params, function(err, results, fields) {
         if (err) return fn(err);
         fn(err, results);
     });

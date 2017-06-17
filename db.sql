@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS user(
     id INT UNSIGNED KEY AUTO_INCREMENT,
     email VARCHAR(200) NOT NULL, -- 邮箱地址
     nickname VARCHAR(50),        -- 昵称
-    avatar_url INT UNSIGNED,         -- 头像
+    avatar_url VARCHAR(300),         -- 头像
     salt VARCHAR(100),           -- 用于加密的salt
     hash_password VARCHAR(100)        -- 密码
 );

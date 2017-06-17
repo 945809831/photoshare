@@ -2,46 +2,51 @@
 var crypto = require('crypto');
 var conn = require('./connection.js');
 
-// define User model
-function User(email, password, nickname, avatar) {
-    this.email = email;
-    this.nickname = nickname;
-    this.avatar = avatar;
-    var res = User.hashPassword(password);
-    this.salt = res[0];
-    this.cryptoPassword = res[1];
+/**
+ *  定义User对象
+ *  @param {Object} obj 包括email、password、nickname、avatar等属性
+ */
+function User(obj) {
+    for (var key in obj) {
+        this[key] = obj[key];
+    }
 }
 
 /**
  *  如果user.id === undefined， 添加新用户到user表中
- *  如果user.id 存在，则更新用户的nickname, avatar
  */
 User.prototype.save = function(fn) {
     var user = this;
     var sqlInsert = 'INSERT INTO user(email, salt, hash_password) VALUES(?, ?, ?)';
-    var sqlUpdate = 'UPDATE user SET nickname=?, avatar_url=?, salt=?, hash_password=?' +
-        ' WHERE id = ?';
+    var result = User.hashPassword(user.password);
     if (!user.id) {
-        var params = [user.email, user.salt, user.cryptoPassword];
+        var params = [user.email, result.salt, result.cryptoPasswd];
         conn.query(sqlInsert, params, function(err, results, fields) {
-            if (err) return fn(err);
-            fn(err);
-        });
-    } else {
-        var params2 = [user.nickname, user.avatar, user.salt, user.cryptoPassword];
-        conn.query(sqlUpdate, params2, function(err, results, fields) {
             if (err) return fn(err);
             fn(err);
         });
     }
 };
-
+/**
+ *  修改用户的头像和昵称
+ */
+User.prototype.changeNicknameAvatar = function(nickname, avatar, fn) {
+    var sql = 'UPDATE user SET nickname=?, avatar_url=? WHERE id = ?';
+    var uid = this.id;
+    conn.query(sql, [nickname, avatar, uid], function(err, results, fields) {
+        if (err) return fn(err);
+        fn();
+    });
+};
+/**
+ *  加密用户密码，计算出加密后的密码和salt
+ */
 User.hashPassword = function(passwd) {
     var salt = Math.round(new Date().valueOf() * Math.random()) + '';
     var cryptoPasswd = crypto.createHash('sha1')
         .update(salt + passwd)
         .digest('hex');
-    return [salt, cryptoPasswd];
+    return { salt, cryptoPasswd };
 };
 
 
