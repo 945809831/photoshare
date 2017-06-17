@@ -16,14 +16,14 @@ router.get('/', function(req, res, next) {
     Photo.getAll(uid, function(err, photos) {
         //res.locals.user = req.session.user;
         res.locals.photos = photos;
-        res.render('user/photosList');
+        res.render('photo/photosList');
     });
 });
 
 // 打开用户上传图片页面
 router.get('/uploadForm', function(req, res, next) {
     //res.locals.user = req.session.user;
-    res.render('user/uploadForm');
+    res.render('photo/uploadForm');
 });
 
 /**
@@ -70,7 +70,7 @@ router.post('/upload', function(req, res, next) {
         } else {
             //res.locals.user = req.session.user;
             res.error("所选的文件并非图片文件，请重新选择");
-            res.render('uploadForm');
+            res.render('photo/uploadForm');
         }
     });
 });
