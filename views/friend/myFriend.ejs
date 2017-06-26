@@ -1,0 +1,32 @@
+<!-- 显示我的所有朋友的列表 -->
+
+  <% if(friends.length==0) { %>
+  <div class="col-md-8  col-xs-8">
+    <h4 class="text-danger">你还没有朋友，点击查找添加新的朋友！</h4>
+  </div>
+  <% } else { %>
+          
+  <% friends.forEach( function(friend){ %>
+    <div class="col-xs-6 col-md-3">
+      <div class="thumbnail">
+        <div class="friend">
+          <img class="img-responsive img-circle friends-avatar" src="<%= friend.avatar_url || '/images/user.jpg' %>" alt="<%= friend.nickname %>">
+        </div>
+        <div class="caption friend-info">
+          <% if(friend.status === 0) { %>
+            <p class="text-center">
+              <span class="friend-name"><%= friend.nickname || friend.email %></span>
+              <span class="text-danger">邀请你为朋友</span>
+            </p>
+            <div class="btn-group">
+              <button type="button" class="btn btn-success">同意</button>
+              <button type="button" class="btn btn-warning">拒绝</button>
+            </div>
+          <% } else {%>
+            <h5 class=" friend-name text-center"><%= friend.nickname || friend.email %></h5>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  <% });
+} %>

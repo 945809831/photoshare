@@ -1,0 +1,28 @@
+
+<div class="table-responsive">
+  <table class="table">
+    <% if(!friends) { %> 
+        <tr><td>没有找到符合该条件的朋友！</td></tr>
+    <% } else { 
+        friends.forEach(function(friend){ %>
+            <tr>
+                <td class="friend-avatar">
+                    <img class="friends-found img-circle" src="<%= friend.avatar_url || '/images/user.jpg'%>">
+                </td>
+                <td><%= friend.email %></td>
+                <td>
+                <% if(friend.status === 0){ %>
+                    <span class="bg-danger">待审核状态</span>
+                <% }else if(friend.status === 1) { %>
+                    <span class="bg-success">已经成为好友了</span>
+                <% }else if(friend.id === locals.user.id){ %>
+                    <span class="bg-success">我自己</span>
+                <% }else{ %>
+                    <a class="btn btn-primary" href="/friend/add/<%= friend.id %>">加为好友</a>
+                <% } %>
+                </td>
+            </tr>    
+        <% });
+    } %>
+  </table>
+</div>

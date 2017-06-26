@@ -27,7 +27,7 @@
 }
 
 
-/*用户页面*/
+/*-----photoList.ejs 用户页面----------------*/
 
 .page-header {
     padding: 10px 0 0 5px;
@@ -69,7 +69,7 @@
 }
 
 
-/* 设置页面的样式*/
+/* -----------settingsForm.ejs 设置页面的样式------------------*/
 
 .settings {
     /*窗口的最大宽度设置为60%*/
@@ -106,4 +106,42 @@
     margin-left: 20px;
     position: absolute;
     bottom: 1px;
+}
+
+
+/*-----------------myFriend.ejs--------------*/
+
+#search-friend-form-row {
+    background: #dff0d8;
+    padding: 10px 0;
+}
+
+#search-friend-form .input-group {
+    width: 100%;
+}
+
+.friends-list {
+    margin-top: 15px;
+}
+
+.friend-name {
+    color: green;
+}
+
+.friends-avatar {
+    width: 150px;
+    height: 150px;
+    margin: 5px auto;
+}
+
+.friend-info {
+    text-align: center;
+}
+
+
+/*--------findResult.ejs-------------------*/
+
+.friends-found {
+    width: 60px;
+    height: 60px;
 }

@@ -48,8 +48,10 @@ CREATE TABLE IF NOT EXISTS comment(
 
 -- 朋友表
 CREATE TABLE IF NOT EXISTS friend(
-    asker INT UNSIGNED,              -- 邀请者
-    recipient INT UNSIGNED,          -- 接受者
+    asker INT UNSIGNED,                 -- 邀请者
+    recipient INT UNSIGNED,             -- 接受者
+    status TINYINT DEFAULT 0,           -- 朋友状态，0表示asker请求recipient为朋友，1表示已经接受请求成为胖友
+    anniversary DATETIME DEFAULT NOW(), -- 相识纪念日
     PRIMARY KEY(asker, recipient),
     CONSTRAINT fk_friend_asker_user_id FOREIGN KEY (asker) REFERENCES user (id),
     CONSTRAINT fk_friend_recipient_user_id FOREIGN KEY (recipient) REFERENCES user (id)

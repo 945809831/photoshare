@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhotoShare</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+     <!-- 全局导航菜单 -->
+     <%- include('../widgets/navmenu') %>
+     <!-- 用户信息-->
+     <%- include('../widgets/greet') %>
+
+     <!--内容区域-->
+     <div  class="container">
+      <div id="search-friend-form-row" class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <form id="search-friend-form" class="form-inline" action="/friend/find" method="post">
+            <div class="input-group">
+              <input id="keyword-input" class="form-control" name="email" placeholder="输入盆友的邮箱地址进行查找">
+              <span class="input-group-btn">
+                  <input class="btn btn-primary" id="find-btn" type="submit">找朋友!</input>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row friends-list">
+       <%- include('myFriend') %> 
+      </div>
+     </div>
+      <script src="/javascripts/jquery.js"></script>
+      <script src="/javascripts/bootstrap.js"></script>
+      <script>
+      $(function(){
+        $('#search-friend-form').submit(function(e){
+          var keyword = $("#keyword-input").val();
+          if(keyword === ""){
+            alert("请输入文字");
+            return false;
+          } 
+        });
+        
+      });
+      </script>
+  </body>
+</html>

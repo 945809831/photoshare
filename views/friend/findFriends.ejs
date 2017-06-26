@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhotoShare</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+     <!-- 全局导航菜单 -->
+     <%- include('../widgets/navmenu') %>
+     <!-- 用户信息-->
+     <%- include('../widgets/greet') %>
+
+     <!--内容区域-->
+     <div  class="container">
+        <%- include('../friend/findResult') %>
+     </div>
+      <script src="/javascripts/jquery.js"></script>
+      <script src="/javascripts/bootstrap.js"></script>
+      <script>
+      $(function(){
+        
+      });
+      </script>
+  </body>
+</html>
