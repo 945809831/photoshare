@@ -19,8 +19,8 @@
               <span class="text-danger">邀请你为朋友</span>
             </p>
             <div class="btn-group">
-              <button type="button" class="btn btn-success">同意</button>
-              <button type="button" class="btn btn-warning">拒绝</button>
+              <a type="button" class="btn btn-success" href="/friend/accept/<%= friend.id%>">同意</a>
+              <a type="button" class="btn btn-warning" href="/friend/refuse/<%= friend.id%>">拒绝</a>
             </div>
           <% } else {%>
             <h5 class=" friend-name text-center"><%= friend.nickname || friend.email %></h5>

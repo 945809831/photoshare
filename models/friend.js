@@ -66,7 +66,7 @@ Friend.add = function(currentUId, uid, callback) {
  */
 Friend.accept = function(currentUId, uid, callback) {
     var sql = 'UPDATE friend SET status=1 WHERE asker=? AND recipient=?';
-    conn.query(sql, [currentUId, uid], function(err, results, fields) {
+    conn.query(sql, [uid, currentUId], function(err, results, fields) {
         if (err) return callback(err);
         callback(err);
     });
@@ -79,7 +79,7 @@ Friend.accept = function(currentUId, uid, callback) {
  */
 Friend.refuse = function(currentUId, uid, callback) {
     var sql = 'DELETE FROM friend WHERE asker=? AND recipient=?';
-    conn.query(sql, [currentUId, uid], function(err, results, fields) {
+    conn.query(sql, [uid, currentUId], function(err, results, fields) {
         if (err) callback(err);
         callback(err);
     });
