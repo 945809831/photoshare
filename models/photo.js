@@ -48,5 +48,17 @@ Photo.getAll = function(uid, fn) {
     });
 };
 
+/**
+ * 提取某个用户的公开和朋友可见的图片信息
+ */
+Photo.getFriendPhoto = function(uid, fn) {
+    var sql = 'SELECT * FROM photo WHERE owner=? AND (visibility="P" OR visibility="F") ' +
+        'ORDER BY upload_time DESC';
+    conn.query(sql, [uid], function(err, results, fields) {
+        if (err) return fn(err);
+        fn(err, results);
+    });
+}
+
 
 module.exports = Photo;

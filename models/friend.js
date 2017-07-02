@@ -36,12 +36,11 @@ Friend.search = function(uid, keyword, callback) {
  * @param {number} uid  当前登录用户的id
  */
 Friend.findMyFriends = function(uid, callback) {
-    var sql = 'select u.id, u.email, u.nickname, u.avatar_url, f.status from user u ' +
-        'inner join (select asker, status from friend where recipient=? and status=0 ' +
-        'union select asker, status from friend where  recipient=? and status=1 ' +
+    var sql = 'select u.id, u.email, u.nickname, u.avatar_url, f.status, f2.how_many from user u ' +
+        'inner join (select asker, status from friend where recipient=? ' +
         'union select recipient,status from friend where asker=? and status=1) f ' +
-        'on u.id=f.asker';
-    conn.query(sql, [uid, uid, uid], function(err, results, fields) {
+        'on u.id=f.asker left join (select owner, count(*) how_many from photo group by owner) f2 on u.id = f2.owner';
+    conn.query(sql, [uid, uid], function(err, results, fields) {
         if (err) callback(err);
         callback(err, results);
     });

@@ -15,8 +15,8 @@ router.get('/', function(req, res, next) {
     var uid = req.session.user.id;
     Photo.getAll(uid, function(err, photos) {
         //res.locals.user = req.session.user;
-        res.locals.photos = photos;
-        res.render('photo/photosList');
+        //res.locals.photos = photos;
+        res.render('photo/photosList', { photos: photos });
     });
 });
 
@@ -109,6 +109,20 @@ router.post('/settings', function(req, res, next) {
             res.render('user/settingsForm');
         }
     });
+});
+
+/**
+ * 获取朋友公开和朋友间可见的图片
+ */
+router.get('/friendPhotos', function(req, res, next) {
+    console.log('friend Photos');
+    var uid = req.query.uid;
+    var friend = req.query.friend;
+    Photo.getFriendPhoto(uid, function(err, photos) {
+        if (err) return err;
+        res.render('friend/friendPhotos', { friend: friend, photos: photos });
+    });
+
 });
 
 module.exports = router;

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhotoShare</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+
+  <body>
+     <!-- 全局导航菜单 -->
+     <%- include('../widgets/navmenu') %>
+     <!-- 用户信息-->
+     <%- include('../widgets/greet') %>
+
+     <!--内容区域-->
+     <div  class="container">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3>
+            这里是 <span class="label label-primary"><%= friend %></span>的照片
+            <span class="label label-success"><a href="/friend/">返回上一级</a></span>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <%- include('../photo/photos') %>
+          </div>
+        </div>
+     </div>
+      <script src="/javascripts/jquery.js"></script>
+      <script src="/javascripts/bootstrap.js"></script>
+      <script>
+      
+      </script>
+  </body>
+</html>

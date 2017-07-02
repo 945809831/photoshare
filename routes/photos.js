@@ -6,6 +6,8 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 
+var Photo = require('../models/photo');
+
 router.get('/:file', function(req, res, next) {
     //var id = req.params.id;  // 图片所有者id
     var fileName = req.params.file; // 所要访问的图片的文件名
