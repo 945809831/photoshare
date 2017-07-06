@@ -4,6 +4,10 @@
 'use strict'
 var conn = require('./connection.js');
 
+function Album() {
+
+}
+
 Album.listByOwner = function(owner, callback) {
     var sql = 'SELECT f.how_many, f.url, a.name, a.id FROM ' +
         '(SELECT count(*) how_many, url, album_id FROM photo WHERE owner=? GROUP BY album_id) f ' +

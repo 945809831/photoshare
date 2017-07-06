@@ -39,13 +39,23 @@ Photo.getRecent = function(fn) {
  * 提取某个用户的全部图片信息
  * @param {number} uid  用户的id
  */
-Photo.getAll = function(uid, fn) {
-    var sql = 'SELECT * FROM photo WHERE owner=? ORDER BY upload_time DESC';
-    var params = [uid];
-    conn.query(sql, params, function(err, results, fields) {
-        if (err) return fn(err);
-        fn(err, results);
-    });
+Photo.getPhotoByAlbum = function(uid, albumId, fn) {
+    var sql = 'SELECT * FROM photo WHERE owner=? AND album_id=? ORDER BY upload_time DESC';
+    var sql2 = 'SELECT * FROM photo WHERE owner=? AND album_id IS NULL ORDER BY upload_time DESC';
+    if (albumId) {
+        var params = [uid, albumId];
+        conn.query(sql, params, function(err, results, fields) {
+            if (err) return fn(err);
+            fn(err, results);
+        });
+    } else {
+        var params2 = [uid];
+        conn.query(sql2, params2, function(err, results, fields) {
+            if (err) return fn(err);
+            fn(err, results);
+        });
+    }
+
 };
 
 /**

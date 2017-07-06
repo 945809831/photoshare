@@ -9,17 +9,28 @@ var path = require('path');
 var fs = require('fs');
 var User = require('../models/user')
 var Photo = require('../models/photo');
+var Album = require('../models/album');
 
-/* 显示用户上传的所有图片文件. */
+/* 显示用户的所有相册. */
 router.get('/', function(req, res, next) {
     var uid = req.session.user.id;
-    Photo.getAll(uid, function(err, photos) {
-        //res.locals.user = req.session.user;
-        //res.locals.photos = photos;
-        res.render('photo/photosList', { photos: photos });
+    // Photo.getAll(uid, function(err, photos) {
+    //     res.render('photo/photosList', { photos: photos });
+    // });
+    Album.listByOwner(uid, function(err, albums) {
+        res.render('photo/albumsList', { albums: albums });
     });
 });
 
+/*列出用户相册中的图片 */
+router.get('/albumPhotos', function(req, res, next) {
+    var uid = req.session.user.id;
+    var albumId = req.query.album;
+    Photo.getPhotoByAlbum(uid, albumId, function(err, photos) {
+        res.render('photo/photosList', { photos: photos });
+    });
+
+});
 // 打开用户上传图片页面
 router.get('/uploadForm', function(req, res, next) {
     //res.locals.user = req.session.user;

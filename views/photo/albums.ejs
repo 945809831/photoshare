@@ -1,0 +1,17 @@
+<% albums.forEach( function(album){ %>
+    <div class="col-xs-6 col-md-3">
+        <div class="thumbnail">
+             <div class="album">
+                <div class="album-cover">
+                    <h1 class="pull-right"><%= album.name || '未分类的照片'%></h1>
+                </div>
+                <div class="album-content">
+                    <img class="img-responsive" src="<%= album.url %>" alt="<%= album.name %>">
+                </div>    
+            </div>
+            <div class="caption">
+                <a class="text-danger" href="/users/albumPhotos?album=<%=album.id%>">这个相册中共有<%= album.how_many %>张照片</a>
+            </div>
+        </div>
+    </div>
+<% } ) %>

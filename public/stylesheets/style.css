@@ -145,3 +145,36 @@
     width: 60px;
     height: 60px;
 }
+
+
+/*-------friendList style----------------*/
+
+.album {
+    position: relative;
+    height: 260px;
+}
+
+.album-cover {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 1001;
+    background: yellow;
+    transform-origin: left;
+    transform: rotateX(0);
+    transition: transform 3s;
+}
+
+.album-content {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.album:hover .album-cover {
+    transform: rotateY(80deg);
+}
