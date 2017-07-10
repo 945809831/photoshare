@@ -1,0 +1,28 @@
+<div class="photo-comment-container">
+    <div class="photo-title">
+        <select>
+            <option>私有</option>
+            <option>朋友可见</option>
+            <option>公开</option>
+        </select>
+        <select>
+            <option>旅游</option>
+            <option>家庭</option>
+            <option>2016回忆</option>
+        </select>
+    </div>
+    <div class="photo-frame">
+    </div>
+    <ul class="photo-comment-list">
+        <% comments.forEach(function(comment){ %>
+            <li class="comment">
+                <div class="comment-from">
+                    <span><%=comment.from %></span>发布于<%= comment.issue_date %>
+                    <div class="comment-content">
+                        <%= comment.content%> 
+                    </div>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+</div>

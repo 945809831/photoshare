@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var photos = require('./routes/photos');
 var friend = require('./routes/friend');
+var album = require('./routes/album');
 
 // 自定义中间件模块
 var messages = require('./middleware/messages'); // 上下文消息中间件
@@ -44,6 +45,7 @@ app.use(messages); // 自定义的用于传递请求层的信息的中间件
 app.use('/photo', photos);
 app.use('/', index);
 app.use(authenticate); // 验证登录,必须放在不用登录可访问的路由之前，否则不需要登录的路由也不能访问
+app.use('/album', album);
 app.use('/users', users);
 app.use('/friend', friend);
 

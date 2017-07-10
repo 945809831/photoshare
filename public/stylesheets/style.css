@@ -164,7 +164,7 @@
     background: yellow;
     transform-origin: left;
     transform: rotateX(0);
-    transition: transform 3s;
+    transition: transform 2s;
 }
 
 .album-content {
@@ -173,6 +173,7 @@
     left: 0px;
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
 
 .album:hover .album-cover {
