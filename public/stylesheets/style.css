@@ -161,7 +161,7 @@
     height: 100%;
     width: 100%;
     z-index: 1001;
-    background: yellow;
+    background: rgba(138, 109, 59, 0.85);
     transform-origin: left;
     transform: rotateX(0);
     transition: transform 2s;
@@ -173,9 +173,58 @@
     left: 0px;
     height: 100%;
     width: 100%;
+    background: rgb(13, 129, 221);
     overflow: hidden;
 }
 
 .album:hover .album-cover {
     transform: rotateY(80deg);
+}
+
+
+/* 页面蒙板效果，用于展示照片和相关评论 */
+
+.mask {
+    position: absolute;
+    z-index: 1109;
+    left: 0;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background: rgba(33, 33, 33, 0.8);
+}
+
+.mask-content {
+    margin: 36px auto;
+    width: 90%;
+    height: 90%;
+    background: greenyellow;
+}
+
+
+/* mask页面中的关闭按钮 */
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 18px;
+    display: block;
+    font-size: 32px;
+    color: #ddd;
+}
+
+.comment-photo-frame {
+    width: 100%;
+    height: 300px;
+    background: black;
+    overflow: scroll;
+}
+
+.comment-photo-frame>img {
+    margin: 15px auto;
+}
+
+.comment-area {
+    width: 95%;
+    margin: 15px;
 }

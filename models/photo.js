@@ -68,7 +68,7 @@ Photo.getFriendPhoto = function(uid, fn) {
         if (err) return fn(err);
         fn(err, results);
     });
-}
+};
 
 
 module.exports = Photo;

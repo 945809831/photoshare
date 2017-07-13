@@ -10,6 +10,7 @@ var fs = require('fs');
 var User = require('../models/user')
 var Photo = require('../models/photo');
 var Album = require('../models/album');
+var Comment = require('../models/comment');
 
 /* 显示用户的所有相册. */
 router.get('/', function(req, res, next) {
@@ -29,8 +30,40 @@ router.get('/albumPhotos', function(req, res, next) {
     Photo.getPhotoByAlbum(uid, albumId, function(err, photos) {
         res.render('photo/photosList', { photos: photos });
     });
-
 });
+/**
+ * =================用户对照片的评论=======================================
+ */
+router.get('/getPhotoComment', function(req, res, next) {
+    var photoId = Number(req.query.pid);
+    var url = req.query.url;
+    var uid = req.session.user.id;
+
+    Comment.getPhotoComment(photoId, uid, function(err, albums, comments) {
+        if (err) {
+            res.render('error', { message: '数据库错误' });
+        } else {
+            res.render('photo/photoComment', { pid: photoId, url: url, albums: albums, comments: comments });
+        }
+    });
+});
+
+/**
+ * 添加评论内容
+ */
+router.post('/addComment', function(req, res, next) {
+    var comment = req.body.comment;
+    var pid = Number(req.body.photoId);
+    var speakerId = req.session.user.id;
+    if (comment === "")
+        res.render('error', { message: "不能添加空的评论！", error: null });
+    Comment.add(comment, pid, speakerId, function(err) {
+        if (err) {
+            res.render('error', { message: "数据库错误！", error: err });
+        }
+    });
+});
+
 // 打开用户上传图片页面
 router.get('/uploadForm', function(req, res, next) {
     //res.locals.user = req.session.user;
@@ -133,7 +166,6 @@ router.get('/friendPhotos', function(req, res, next) {
         if (err) return err;
         res.render('friend/friendPhotos', { friend: friend, photos: photos });
     });
-
 });
 
 module.exports = router;

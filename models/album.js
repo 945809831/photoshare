@@ -9,10 +9,11 @@ function Album() {
 }
 
 Album.listByOwner = function(owner, callback) {
-    var sql = 'SELECT f.how_many, f.url, a.name, a.id FROM ' +
+    var sql = '(SELECT f.how_many, f.url, a.name, a.id FROM ' +
         '(SELECT count(*) how_many, url, album_id FROM photo WHERE owner=? GROUP BY album_id) f ' +
-        'RIGHT JOIN album a ON f.album_id=a.id';
-    conn.query(sql, [owner], function(err, result, fields) {
+        'RIGHT JOIN (select * from album where owner=?) a ON f.album_id=a.id) UNION ' +
+        '(SELECT count(*) how_many, url, "未分类",album_id FROM photo WHERE owner=? AND album_id is NULL GROUP BY album_id)';
+    conn.query(sql, [owner, owner, owner], function(err, result, fields) {
         if (err) return callback(err);
         callback(err, result);
     });

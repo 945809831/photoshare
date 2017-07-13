@@ -9,8 +9,12 @@
                 </div>    
             </div>
             <div class="caption">
-                <a class="text-danger" href="/users/albumPhotos?album=<%=album.id%>">这个相册中共有<%= album.how_many %>张照片</a>
-                <a class="btn btn-danger btn-album-delete" href="/album/del?id=<%=album.id%>" >删除</a>
+                <% if (album.how_many) {%>
+                    <a class="text-success" href="/users/albumPhotos?album=<%=album.id%>">这个相册中共有<%= album.how_many %>张照片</a>
+                <% }else{ %>
+                    <span class="text-danger">这个相册没有照片</span>
+                    <a class="btn btn-danger btn-album-delete" href="/album/del?id=<%=album.id%>" >删除</a>
+                <% } %>
             </div>
     </div>
 <% } ) %>

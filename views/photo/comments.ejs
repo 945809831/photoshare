@@ -1,0 +1,12 @@
+<ul class="photo-comment-list">
+        <% comments.forEach(function(comment){ %>
+            <li class="comment">
+                <div class="comment-from">
+                    <span><%=comment.speaker_id %></span>发布于<%= comment.issue_date %>
+                    <div class="comment-content">
+                        <%= comment.content%> 
+                    </div>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
