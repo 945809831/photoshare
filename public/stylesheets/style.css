@@ -27,6 +27,25 @@
 }
 
 
+/*---------- uploadForm.ejs-------------*/
+
+#images-preview {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    position: relative;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    padding: 10px;
+    background: white;
+}
+
+#images-preview img {
+    width: 100%;
+    border: 1px solid #8a4419;
+    border-style: inset;
+}
+
+
 /*-----photoList.ejs 用户页面----------------*/
 
 .page-header {
@@ -182,49 +201,35 @@
 }
 
 
-/* 页面蒙板效果，用于展示照片和相关评论 */
-
-.mask {
-    position: absolute;
-    z-index: 1109;
-    left: 0;
-    top: 0px;
-    height: 100%;
-    width: 100%;
-    background: rgba(33, 33, 33, 0.8);
-}
-
-.mask-content {
-    margin: 36px auto;
-    width: 90%;
-    height: 90%;
-    background: greenyellow;
-}
-
-
-/* mask页面中的关闭按钮 */
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 18px;
-    display: block;
-    font-size: 32px;
-    color: #ddd;
-}
+/*photoComment.ejs*/
 
 .comment-photo-frame {
-    width: 100%;
-    height: 300px;
+    position: relative;
+    text-align: center;
     background: black;
-    overflow: scroll;
 }
 
-.comment-photo-frame>img {
-    margin: 15px auto;
+.photo-vi {
+    position: absolute;
+    right: 28px;
+    top: 28px;
+    line-height: 28px;
+    font-size: 20;
+    background: yello;
 }
 
-.comment-area {
-    width: 95%;
-    margin: 15px;
+.photo-comment-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.comment {
+    border: 1px solid goldenrod;
+    margin: 4px;
+    padding: 0;
+}
+
+.comment-content {
+    padding-left: 20px;
 }

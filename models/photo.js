@@ -70,5 +70,14 @@ Photo.getFriendPhoto = function(uid, fn) {
     });
 };
 
+/**
+ * 修改照片的可见性
+ */
+Photo.changeVisibility = function(pid, visibility, fn) {
+    var sql = 'UPDATE photo SET visibility=? WHERE id=?';
+    conn.query(sql, [visibility, pid], function(err, results, fields) {
+        fn(err);
+    });
+}
 
 module.exports = Photo;

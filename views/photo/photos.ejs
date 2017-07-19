@@ -1,15 +1,16 @@
 <% photos.forEach( function(photo){ %>
     <div class="col-xs-6 col-md-3">
-        <div class="thumbnail photo-frame">
+        <a class="thumbnail photo-frame" 
+        href="/users/getPhotoComment?pid=<%= photo.id%>">
             <div class="caption">
                 <h5><%= photo.title %></h5>
             </div>
              <div class="photo">
-                <img class="img-responsive" src="<%= photo.url %>" alt="<%= photo.title %>" data-pid="<%= photo.id%>">
+                <img class="img-responsive" src="<%= photo.url %>" alt="<%= photo.title %>">
             </div>
             <div class="caption">
                 <p><%= photo.upload_time.toLocaleString() %></p>
             </div>
-        </div>
+        </a>
     </div>
 <% } ) %>

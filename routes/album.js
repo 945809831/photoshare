@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 var Album = require('../models/album');
+var Photo = require('../models/photo');
 
 router.get('/listByOwner', function(req, res, next) {
     var uid = req.session.user.id;
@@ -19,6 +20,20 @@ router.post('/add', function(req, res, next) {
             res.render('error');
         else
             res.redirect('/users/');
+    });
+});
+
+/**
+ * 改变图片的可见性
+ */
+router.get('/changeVisibility', function(req, res, next) {
+    var pid = req.query.pid;
+    var visibility = req.query.vi;
+    Photo.changeVisibility(pid, visibility, function(err) {
+        if (err)
+            res.send('ERROR');
+        else
+            res.send('SUCCESS');
     });
 });
 

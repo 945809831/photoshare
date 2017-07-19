@@ -28,6 +28,7 @@ Album.addAlbum = function(name, owner, callback) {
         callback(err);
     });
 };
+
 /**
  * 删除id为albumId的相册
  */

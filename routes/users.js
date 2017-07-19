@@ -15,35 +15,48 @@ var Comment = require('../models/comment');
 /* 显示用户的所有相册. */
 router.get('/', function(req, res, next) {
     var uid = req.session.user.id;
-    // Photo.getAll(uid, function(err, photos) {
-    //     res.render('photo/photosList', { photos: photos });
-    // });
+
     Album.listByOwner(uid, function(err, albums) {
         res.render('photo/albumsList', { albums: albums });
     });
 });
 
-/*列出用户相册中的图片 */
+/*列出相册中的图片 */
 router.get('/albumPhotos', function(req, res, next) {
     var uid = req.session.user.id;
     var albumId = req.query.album;
+    var albumName = req.query.albumName;
     Photo.getPhotoByAlbum(uid, albumId, function(err, photos) {
-        res.render('photo/photosList', { photos: photos });
+        res.render('photo/photosList', { photos: photos, albumName: albumName });
     });
 });
+
+
+/**
+ * 获取朋友公开和朋友间可见的图片
+ */
+router.get('/friendPhotos', function(req, res, next) {
+    console.log('friend Photos');
+    var uid = req.query.uid;
+    var friend = req.query.friend;
+    Photo.getFriendPhoto(uid, function(err, photos) {
+        if (err) return err;
+        res.render('friend/friendPhotos', { friend: friend, photos: photos });
+    });
+});
+
 /**
  * =================用户对照片的评论=======================================
  */
 router.get('/getPhotoComment', function(req, res, next) {
     var photoId = Number(req.query.pid);
-    var url = req.query.url;
     var uid = req.session.user.id;
 
-    Comment.getPhotoComment(photoId, uid, function(err, albums, comments) {
+    Comment.getPhotoComment(photoId, uid, function(err, albums, comments, photo) {
         if (err) {
             res.render('error', { message: '数据库错误' });
         } else {
-            res.render('photo/photoComment', { pid: photoId, url: url, albums: albums, comments: comments });
+            res.render('photo/photoComment', { albums: albums, comments: comments, photo: photo[0] });
         }
     });
 });
@@ -55,11 +68,11 @@ router.post('/addComment', function(req, res, next) {
     var comment = req.body.comment;
     var pid = Number(req.body.photoId);
     var speakerId = req.session.user.id;
-    if (comment === "")
-        res.render('error', { message: "不能添加空的评论！", error: null });
     Comment.add(comment, pid, speakerId, function(err) {
         if (err) {
             res.render('error', { message: "数据库错误！", error: err });
+        } else {
+            res.redirect('/users/getPhotoComment?pid=' + pid);
         }
     });
 });
@@ -152,19 +165,6 @@ router.post('/settings', function(req, res, next) {
             res.locals.info = "所选的文件并非图片文件，请重新选择";
             res.render('user/settingsForm');
         }
-    });
-});
-
-/**
- * 获取朋友公开和朋友间可见的图片
- */
-router.get('/friendPhotos', function(req, res, next) {
-    console.log('friend Photos');
-    var uid = req.query.uid;
-    var friend = req.query.friend;
-    Photo.getFriendPhoto(uid, function(err, photos) {
-        if (err) return err;
-        res.render('friend/friendPhotos', { friend: friend, photos: photos });
     });
 });
 

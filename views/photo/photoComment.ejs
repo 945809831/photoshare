@@ -1,45 +1,70 @@
-<div class="photo-comment-container">
-    <div class="title-toolbar">
-        <!-- 选择所在相册 -->
-        <div class="btn-group">
-        <button type="button" class="btn btn-danger">相册</button>
-        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu">
-            <% albums.forEach(function(album) { %>
-                <li><a href="/album/changeAblum?id=album.id"><%= album.name %></a></li>
-            <% }) %> 
-        </ul>
-        </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhotoShare</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
 
-        <!-- 选择可见性-->
-        <div class="btn-group">
-        <button type="button" class="btn btn-danger">可见性</button>
-        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="/album/changeVibility?vi=P">公开</a></li>
-            <li><a href="/album/changeVibility?vi=F">朋友可见</a></li>
-            <li><a href="/album/changeVibility?vi=M">自己可见</a></li>
-        </ul>
-        </div>
+  <body>
+     <!-- 全局导航菜单 -->
+     <%- include('../widgets/navmenu') %>
+     <!-- 用户信息-->
+     <%- include('../widgets/greet') %>
 
-    </div>
-    <div class="comment-photo-frame">
-        <img class="large-photo" src="<%= url %>">
-    </div>
-    <div class="comment-area">
-        <%- include('comments') %>
-    </div>
-    <form method="post" action="/users/addComment" onsubmit="return addComment()">
-        <div class="form-group">
-            <input type="hidden" name='photoId' value="<%= pid %>">
-            <input type="text" class="form-control" id="new-comment" placeholder="有什么想说的吗" name="comment">
-        </div>   
-        <button type="submit" class="btn btn-default">提交评论</button>
-    </form>
-</div>
+     <!--内容区域-->
+     <div  class="container">
+        <div class="row">
+            <div class="col-md-12"><h3 class="text-primary"><%= photo.title %></h3></div>
+        </div>
+        <div class="panel panel-default photo-comment-container">
+            <div class="panel-heading title-toolbar">
+                <!-- 选择所在相册 -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        选择相册<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <% albums.forEach(function(album) { %>
+                            <li><a href="/album/changeAblum?id=album.id"><%= album.name %></a></li>
+                        <% }) %> 
+                    </ul>
+                </div>
+
+                <!-- 选择可见性-->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        可见性<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu photo-visibility">
+                        <li><a href="/album/changeVisibility?vi=P&pid=<%= photo.id %>">公开</a></li>
+                        <li><a href="/album/changeVisibility?vi=F&pid=<%= photo.id %>">朋友可见</a></li>
+                        <li><a href="/album/changeVisibility?vi=M&pid=<%= photo.id %>">自己可见</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body comment-photo-frame">
+                <div class="photo-vi">
+                    私人
+                </div>
+                <img class="large-photo" src="<%= photo.url %>">
+            </div>
+            <div class="panel-footer comment-area">
+                <%- include('comments') %>
+                <form method="post" action="/users/addComment">
+                    <div class="form-group">
+                        <input type="hidden" name='photoId' value="<%= photo.id %>">
+                        <input type="text" class="form-control" id="new-comment" placeholder="有什么想说的吗" name="comment">
+                    </div>   
+                <button type="submit" class="btn btn-default" id="submit-btn" disabled="disabled">提交评论</button>
+                </form>
+            </div>   
+        </div>
+     </div>
+      <script src="/javascripts/jquery.js"></script>
+      <script src="/javascripts/bootstrap.js"></script>
+      <script src="/javascripts/showComment.js"></script>
+  </body>
+</html>
