@@ -80,4 +80,14 @@ Photo.changeVisibility = function(pid, visibility, fn) {
     });
 }
 
+/**
+ *  改变照片所属相册
+ */
+Photo.changeAlbum = function(pid, aid, owner, fn) {
+    var sql = 'UPDATE photo SET album_id=? WHERE id=? AND owner=?';
+    conn.query(sql, [aid, pid, owner], function(err, results, fields) {
+        fn(err);
+    });
+}
+
 module.exports = Photo;

@@ -22,17 +22,17 @@ Comment.add = function(content, pid, speaker, callback) {
 Comment.getPhotoComment = function(pid, owner, callback) {
     var sqlGetAlbums = 'SELECT * FROM album WHERE owner=?';
     var sqlGetComments = 'SELECT content, issue_date, speaker_id FROM comment WHERE photo_id=?';
-    var sqlGetPhotoInfo = "select url, title, upload_time, visibility, " +
-        "case when album_id is null then '未分类' else " +
-        "(select a.name from photo p inner join album a on p.album_id=a.id) end album_name " +
-        "from photo where id=? and owner=?";
+    var sqlGetPhotoInfo = "SELECT id, url, title, upload_time, owner,visibility, " +
+        "CASE WHEN album_id IS NULL THEN '未分类' ELSE " +
+        "(SELECT a.name FROM photo p INNER JOIN album a ON p.album_id=a.id WHERE p.id=?) END album_name " +
+        "FROM photo WHERE id=?";
     conn.query(sqlGetAlbums, [owner], function(err, results, fields) {
         if (err) return callback(err);
         var albums = results;
         conn.query(sqlGetComments, [pid], function(err, results, fields) {
             if (err) return callback(err);
             var comments = results;
-            conn.query(sqlGetPhotoInfo, [pid, owner], function(err, results, fields) {
+            conn.query(sqlGetPhotoInfo, [pid, pid], function(err, results, fields) {
                 callback(err, albums, comments, results);
             });
         });

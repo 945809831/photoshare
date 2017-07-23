@@ -46,17 +46,16 @@ router.get('/friendPhotos', function(req, res, next) {
 });
 
 /**
- * =================用户对照片的评论=======================================
+ * 用户对照片的评论
  */
 router.get('/getPhotoComment', function(req, res, next) {
     var photoId = Number(req.query.pid);
     var uid = req.session.user.id;
-
     Comment.getPhotoComment(photoId, uid, function(err, albums, comments, photo) {
         if (err) {
             res.render('error', { message: '数据库错误' });
         } else {
-            res.render('photo/photoComment', { albums: albums, comments: comments, photo: photo[0] });
+            res.render('photo/photoComment', { uid: uid, albums: albums, comments: comments, photo: photo[0] });
         }
     });
 });
@@ -67,7 +66,7 @@ router.get('/getPhotoComment', function(req, res, next) {
 router.post('/addComment', function(req, res, next) {
     var comment = req.body.comment;
     var pid = Number(req.body.photoId);
-    var speakerId = req.session.user.id;
+    var speakerId = Number(req.session.user.id);
     Comment.add(comment, pid, speakerId, function(err) {
         if (err) {
             res.render('error', { message: "数据库错误！", error: err });

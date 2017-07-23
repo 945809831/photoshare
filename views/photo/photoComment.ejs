@@ -17,18 +17,19 @@
      <!--内容区域-->
      <div  class="container">
         <div class="row">
-            <div class="col-md-12"><h3 class="text-primary"><%= photo.title %></h3></div>
+            <div class="col-md-12"><h3 class="text-primary"><%= photo.title || '这张照片还未命名' %></h3></div>
         </div>
         <div class="panel panel-default photo-comment-container">
             <div class="panel-heading title-toolbar">
                 <!-- 选择所在相册 -->
+                <% if(photo.owner === uid) {%>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         选择相册<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <% albums.forEach(function(album) { %>
-                            <li><a href="/album/changeAblum?id=album.id"><%= album.name %></a></li>
+                            <li><a href="/album/changeAlbum?aid=<%=album.id%>&pid=<%= photo.id%>"><%= album.name %></a></li>
                         <% }) %> 
                     </ul>
                 </div>
@@ -44,10 +45,18 @@
                         <li><a href="/album/changeVisibility?vi=M&pid=<%= photo.id %>">自己可见</a></li>
                     </ul>
                 </div>
+                <% } %>
             </div>
             <div class="panel-body comment-photo-frame">
                 <div class="photo-vi">
-                    私人
+                    <% var s = photo.visibility; 
+                       if(s==='M'){ %>
+                          <%= '自己可见' %>
+                       <% }else if(s==='F') { %>
+                          <%= '朋友可见' %>
+                       <% } else { %>
+                          <%= '公开' %>
+                      <% } %>
                 </div>
                 <img class="large-photo" src="<%= photo.url %>">
             </div>

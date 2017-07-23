@@ -37,6 +37,21 @@ router.get('/changeVisibility', function(req, res, next) {
     });
 });
 
+/**
+ * 改变图片所在相册
+ */
+router.get('/changeAlbum', function(req, res, next) {
+    var pid = Number(req.query.pid);
+    var aid = Number(req.query.aid);
+    var owner = Number(req.session.user.id);
+    Photo.changeAlbum(pid, aid, owner, function(err) {
+        res.redirect('/users/');
+    });
+});
+
+/**
+ *  删除相册
+ */
 router.get('/del', function(req, res, next) {
     var albumId = req.query.id;
     var uid = req.session.user.id;

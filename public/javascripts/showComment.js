@@ -16,8 +16,10 @@ $(function() {
         event.preventDefault(); // 防止页面跳转
         var source = event.target; // 获得事件源
         var url = $(source).attr('href'); // 得到请求的url地址
+        var visibility = $(source).text();
         $.get(url, function(data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
+            $('.photo-vi').text(visibility);
+            // alert("Data: " + visibility + "\nStatus: " + status);
         });
     });
 });

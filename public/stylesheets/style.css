@@ -207,15 +207,17 @@
     position: relative;
     text-align: center;
     background: black;
+    overflow: scroll;
 }
 
 .photo-vi {
     position: absolute;
-    right: 28px;
-    top: 28px;
-    line-height: 28px;
-    font-size: 20;
-    background: yello;
+    right: 5%;
+    top: 5%;
+    line-height: 32px;
+    font-size: 28;
+    background: yellow;
+    color: red;
 }
 
 .photo-comment-list {
