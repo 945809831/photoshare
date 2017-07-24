@@ -1,5 +1,5 @@
 -- Photos database
-CREATE DATABASE IF NOT EXISTS photos;
+CREATE DATABASE CHARACTER SET utf8 IF NOT EXISTS photos;
 
 USE photos;
 -- PhotoShare database tables
