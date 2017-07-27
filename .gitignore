@@ -3,7 +3,7 @@ logs
 *.log
 
 # Runtime data
-photolib
+photolib/
 pids
 *.pid
 *.seed
