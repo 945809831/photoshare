@@ -1,6 +1,10 @@
 -- Photos database
+<<<<<<< HEAD
 -- CREATE DATABASE DEFAULT CHARACTER SET utf8  IF NOT EXISTS photos;
 CREATE DATABASE IF NOT EXISTS photos DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+=======
+CREATE DATABASE CHARACTER SET utf8 IF NOT EXISTS photos;
+>>>>>>> caa61ba3fdfbdf72d6d0c81ebf7b03da54603d45
 
 USE photos;
 -- PhotoShare database tables
