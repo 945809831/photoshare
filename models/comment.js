@@ -21,7 +21,8 @@ Comment.add = function(content, pid, speaker, callback) {
 // 获取照片相关的评论和用户所有的相册信息
 Comment.getPhotoComment = function(pid, owner, callback) {
     var sqlGetAlbums = 'SELECT * FROM album WHERE owner=?';
-    var sqlGetComments = 'SELECT content, issue_date, speaker_id FROM comment WHERE photo_id=?';
+    var sqlGetComments = 'SELECT c.content, c.issue_date, u.email, u.nickname FROM comment c INNER JOIN user u '+ 
+                         'ON c.speaker_id=u.id WHERE c.photo_id=?';
     var sqlGetPhotoInfo = "SELECT id, url, title, upload_time, owner,visibility, " +
         "CASE WHEN album_id IS NULL THEN '未分类' ELSE " +
         "(SELECT a.name FROM photo p INNER JOIN album a ON p.album_id=a.id WHERE p.id=?) END album_name " +

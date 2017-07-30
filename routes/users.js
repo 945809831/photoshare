@@ -53,7 +53,7 @@ router.get('/getPhotoComment', function(req, res, next) {
     var uid = req.session.user.id;
     Comment.getPhotoComment(photoId, uid, function(err, albums, comments, photo) {
         if (err) {
-            res.render('error', { message: '数据库错误' });
+            res.render('error', { message: '数据库错误', error: err });
         } else {
             res.render('photo/photoComment', { uid: uid, albums: albums, comments: comments, photo: photo[0] });
         }

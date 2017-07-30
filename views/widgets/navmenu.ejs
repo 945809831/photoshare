@@ -10,16 +10,16 @@
     </div>
     <nav id="menu" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <% if(!locals.user){ %>
+        <% if(locals.user){ %>
+          <li><a href="/users/uploadForm">上传</a></li>
+          <li><a href="/users/">我的相册</a></li>
+          <li><a href="/friend/">朋友</a></li>
+          <li><a href="/users/settingsForm">设置</a></li>
+          <li><a href="/logout">退出</a></li>
+        <% }else{ %>
           <li><a href="/loginForm">登录</a></li>
           <li><a href="/registerForm">注册</a></li>
-          <% } else { %>
-            <li><a href="/users/uploadForm">上传</a></li>
-            <li><a href="/users/">我的相册</a></li>
-            <li><a href="/friend/">朋友</a></li>
-            <li><a href="/users/settingsForm">设置</a></li>
-            <li><a href="/logout">退出</a></li>
-          <% } %>
+        <% } %>
       </ul>
     </nav>
   </div>

@@ -43,8 +43,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(messages); // 自定义的用于传递请求层的信息的中间件
 app.use('/photo', photos);
+app.use(authenticate); 
 app.use('/', index);
-app.use(authenticate); // 验证登录,必须放在不用登录可访问的路由之前，否则不需要登录的路由也不能访问
 app.use('/album', album);
 app.use('/users', users);
 app.use('/friend', friend);
